@@ -8,14 +8,14 @@ import eda
 import collaborative_filtering
 import content_based
 
-@st.cache(show_spinner=False)
+@st.cache(show_spinner=False,allow_output_mutation=True)
 def load_data():
     ############PATHS########################
     path_metadata_complete = './dat/movies_metadata_complete.csv'
     path_ratings_complete = './dat/ratings_complete.csv'
 
     ################   1) df_metadata_complete        #####################
-    df_metadata_complete = pd.read_csv(path_metadata_complete, dtype=str, sep=",")
+    df_metadata_complete = pd.read_csv(path_metadata_complete, sep=",")
 
     ################   2) df_ratings_complete ####################
     df_ratings_complete = pd.read_csv(path_ratings_complete, dtype=str, sep=",")
