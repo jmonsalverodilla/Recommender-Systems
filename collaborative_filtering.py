@@ -88,6 +88,6 @@ def load_page(df_ratings_complete):
                 st.plotly_chart(fig)
             else:
                 st.write("You need to select at least a movie you liked in order to get recommendations")
-        print(type(st.session_state))
-        for var in st.session_state:
-            print(var)
+        #print(type(st.session_state))
+        #for var in st.session_state:
+        #    print(var)
