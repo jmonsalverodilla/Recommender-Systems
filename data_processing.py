@@ -24,7 +24,6 @@ def get_df_ratings_complete(df_ratings, df_links, df_metadata):
 def get_soup_column(df_metadata,df_credits,df_keywords):
     df_metadata1 = df_metadata.merge(df_credits, on='id',how="inner").drop_duplicates()
     df_metadata_complete = df_metadata1.merge(df_keywords, on='id',how="inner").drop_duplicates()
-    df_metadata_complete = df_metadata_complete[df_metadata_complete['revenue'] > 10_000_000].drop_duplicates('title')
 
     #Literal eval
     df_metadata_complete['crew'] = df_metadata_complete['crew'].apply(ast.literal_eval)
@@ -84,6 +83,7 @@ df_metadata['id'] = df_metadata['id'].astype('str')
 df_metadata['title'] = df_metadata['title'].str.title()
 df_metadata['revenue'] = df_metadata['revenue'].astype('float')
 df_metadata['imdb_id'] = df_metadata['imdb_id'].str.replace('tt', '')
+df_metadata = df_metadata[df_metadata['revenue'] > 10_000_000].drop_duplicates('title')
 
 
 #################### 2)  CREDITS DATASET   ###############################
@@ -99,9 +99,6 @@ df_links = pd.read_csv(path_links,dtype=str)
 
 ################   5) RATINGS SMALL DATASET ####################
 df_ratings = pd.read_csv(path_ratings_small,dtype=str)
-
-
-
 
 
 #########################CONTENT BASED RECOMMENDER###############
