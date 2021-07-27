@@ -68,7 +68,7 @@ def load_page(df_metadata_complete):
         st.markdown("## Select your favourite movie/movies in order to get recommendations")
         selected_titles = st.multiselect(label="Selected movie/movies",
                                         options=df_metadata_complete['title'].unique(),
-                                        default=["The Dark Knight Rises"])
+                                        default=["Forrest Gump"])
 
         # Number of recommendations
         number_of_recommendations = st.number_input("Number of recommended movies", value=10, step=1)

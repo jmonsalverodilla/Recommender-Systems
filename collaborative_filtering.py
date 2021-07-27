@@ -54,6 +54,10 @@ def load_page(df_ratings_complete):
 
     df_similarity = get_similarity_matrix(df_ratings_complete)
 
+    num_notas = 3
+    ratings_per_movie = df_ratings_complete.groupby('title').agg({'userId': 'count'}).reset_index().sort_values(by="userId", ascending=False).rename(columns={'userId': 'number_of_ratings'})
+    ratings_per_movie['quality'] = ratings_per_movie['number_of_ratings'].transform(lambda x: pd.qcut(x, num_notas, duplicates='drop', labels=['Low quality', 'Average quality', 'High quality']))
+
     ###Streamlit app
     row1_spacer1, row1_1, row1_spacer2 = st.beta_columns((0.01, 3.2, 0.01))
 
@@ -72,7 +76,7 @@ def load_page(df_ratings_complete):
         st.markdown("## Select your favourite movie/movies in order to get recommendations")
         selected_titles = st.multiselect(label="Selected movie/movies",
                                         options=df_ratings_complete['title'].unique(),
-                                        default = ["The Dark Knight Rises"])
+                                        default = ["Forrest Gump"])
 
 
         # Number of recommendations
@@ -86,6 +90,16 @@ def load_page(df_ratings_complete):
                                                                df_similarity=df_similarity)
                 fig = plot_similarities(df_most_similar_items=df_most_similar_items)
                 st.plotly_chart(fig)
+                for title in selected_titles:
+                    str1 = f"Quality of prediction for the movie {title}: "
+                    str2 = ratings_per_movie[ratings_per_movie['title'] == title]['quality'].values[0]
+                    info = str1 + str2
+                    if str2 == "High quality":
+                        st.success(info)
+                    if str2 == "Average quality":
+                        st.info(info)
+                    if str2 == "Low quality":
+                        st.warning(info)
             else:
                 st.write("You need to select at least a movie you liked in order to get recommendations")
         #print(type(st.session_state))
