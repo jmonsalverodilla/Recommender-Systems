@@ -1,10 +1,8 @@
+#Imports
 import streamlit as st
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-import requests
 import plotly.express as px
-from streamlit_lottie import st_lottie
-import time
 
 
 ################################Functions##########
@@ -35,13 +33,6 @@ def plot_similarities(df_most_similar_items):
                        height=500)
     fig.update_yaxes(title="Similarity")
     return fig
-
-@st.cache(show_spinner=False)
-def load_lottieurl(url: str):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
 
 
 ###################################APP######################################
